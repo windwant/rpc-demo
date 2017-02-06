@@ -8,7 +8,8 @@ import org.rpcserver.test.core.serialize.SerializationUtil;
 import java.util.List;
 
 /**
- * Created by aayongche on 2016/6/30.
+ * 解码
+ * Created by windwant on 2016/6/30.
  */
 public class RpcDecoder extends ByteToMessageDecoder {
 
@@ -21,7 +22,7 @@ public class RpcDecoder extends ByteToMessageDecoder {
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         if(in.readableBytes() < 4) return;
-        in.markReaderIndex();
+        in.markReaderIndex();//记录开始读取位置
 
         int size = in.readInt();
 

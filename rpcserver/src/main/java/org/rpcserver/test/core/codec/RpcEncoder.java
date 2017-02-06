@@ -6,7 +6,8 @@ import io.netty.handler.codec.MessageToByteEncoder;
 import org.rpcserver.test.core.serialize.SerializationUtil;
 
 /**
- * Created by aayongche on 2016/6/30.
+ * 编码
+ * Created by windwant on 2016/6/30.
  */
 public class RpcEncoder extends MessageToByteEncoder {
 
@@ -19,9 +20,9 @@ public class RpcEncoder extends MessageToByteEncoder {
     @Override
     protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
         if(genericClass.isInstance(msg)){
-            byte[] data = SerializationUtil.serialize(msg);
-            out.writeInt(data.length);
-            out.writeBytes(data);
+            byte[] data = SerializationUtil.serialize(msg); //序列化对象
+            out.writeInt(data.length);//写入长度
+            out.writeBytes(data);//写入数据
         }
     }
 }

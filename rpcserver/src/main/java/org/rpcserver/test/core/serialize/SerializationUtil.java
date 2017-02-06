@@ -11,16 +11,23 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by aayongche on 2016/6/30.
+ * 序列化工具类
+ * Created by windwant on 2016/6/30.
  */
 public class SerializationUtil {
 
     private static Map<Class<?>, Schema<?>> cachedSchem = new ConcurrentHashMap<Class<?>, Schema<?>>();
 
-    private static Objenesis objenesis = new ObjenesisStd(true);
+    private static Objenesis objenesis = new ObjenesisStd(true); //序列化对象通用接口对象
 
     private SerializationUtil(){};
 
+    /**
+     * 对应需要序列化obj的schema 序列化和反序列化需要
+     * @param cls
+     * @param <T>
+     * @return
+     */
     private static <T> Schema<T> getSchema(Class<T> cls){
         Schema<T> schema = (Schema<T>) cachedSchem.get(cls);
         if(schema == null){
@@ -32,6 +39,12 @@ public class SerializationUtil {
         return schema;
     }
 
+    /**
+     * 序列化 获取或生成Schema 调用ProtostuffIOUtil 转化为byte[]
+     * @param obj
+     * @param <T>
+     * @return
+     */
     public static <T> byte[] serialize(T obj){
         Class<T> cls = (Class<T>) obj.getClass();
         LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
@@ -46,6 +59,13 @@ public class SerializationUtil {
         }
     }
 
+    /**
+     * 反序列化 获取或生成Schema 调用ProtostuffIOUtil 转化为bobj
+     * @param data
+     * @param cls
+     * @param <T>
+     * @return
+     */
     public static <T> T deserialize(byte[] data, Class<T> cls){
         try {
             T message = (T) objenesis.newInstance(cls);

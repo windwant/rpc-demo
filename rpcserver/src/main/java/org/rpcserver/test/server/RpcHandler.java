@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 /**
- * Created by aayongche on 2016/6/30.
+ * Created by windwant on 2016/6/30.
  */
 public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
@@ -40,6 +40,12 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
         ctx.writeAndFlush(response);
     }
 
+    /**
+     * 反射及调用
+     * @param request
+     * @return
+     * @throws InvocationTargetException
+     */
     private Object handleReuqest(RpcRequest request) throws InvocationTargetException {
         String className = request.getClassName();
         Object serviceBean = handlerMap.get(className);

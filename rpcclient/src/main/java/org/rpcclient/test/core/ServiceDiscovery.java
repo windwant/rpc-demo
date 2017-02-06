@@ -13,7 +13,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Created by aayongche on 2016/6/30.
+ * 服务发现即监测
+ * Created by windwant on 2016/6/30.
  */
 public class ServiceDiscovery {
 

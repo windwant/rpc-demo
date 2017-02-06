@@ -1,7 +1,7 @@
 package org.rpcserver.test.pojo;
 
 /**
- * Created by aayongche on 2016/6/30.
+ * Created by windwant on 2016/6/30.
  */
 public class RpcResponse {
 

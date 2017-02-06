@@ -8,10 +8,11 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by aayongche on 2016/6/30.
+ * RpcService Annotation
+ * Created by windwant on 2016/6/30.
  */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE) //标识类 接口 枚举
+@Retention(RetentionPolicy.RUNTIME) //运行时有效
 @Component
 public @interface RpcService {
     Class<?> value();

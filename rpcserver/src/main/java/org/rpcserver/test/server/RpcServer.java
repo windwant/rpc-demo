@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * Created by aayongche on 2016/6/30.
+ * Created by windwant on 2016/6/30.
  */
 public class RpcServer implements ApplicationContextAware, InitializingBean {
     private String serverAddress;
@@ -44,15 +44,21 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
     }
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        //根据注解获取beanMap “@RpcService”
         Map<String, Object> serviceBeanMap = applicationContext.getBeansWithAnnotation(RpcService.class);
         if(MapUtils.isNotEmpty(serviceBeanMap)){
             for(Map.Entry<String, Object> entry: serviceBeanMap.entrySet()){
+                //获取处理服务接口名 value
                 String interfaceName = entry.getValue().getClass().getAnnotation(RpcService.class).value().getName();
                 handlerMap.put(interfaceName, entry.getValue());
             }
         }
     }
 
+    /**
+     * netty 启动服务
+     * @throws Exception
+     */
     public void afterPropertiesSet() throws Exception {
         EventLoopGroup boss = new NioEventLoopGroup();
         EventLoopGroup worker = new NioEventLoopGroup();
@@ -67,7 +73,7 @@ public class RpcServer implements ApplicationContextAware, InitializingBean {
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ch.pipeline().addLast(new RpcDecoder(RpcRequest.class));
                             ch.pipeline().addLast(new RpcEncoder(RpcResponse.class));
-                            ch.pipeline().addLast(new RpcHandler(handlerMap));
+                            ch.pipeline().addLast(new RpcHandler(handlerMap)); //service处理
                         }
                     });
             String[] addr = serverAddress.split(":");

@@ -4,11 +4,13 @@ import org.rpcserver.test.core.annotation.RpcService;
 import org.rpcserver.test.service.HelloService;
 
 /**
- * Created by aayongche on 2016/6/30.
+ * Created by windwant on 2016/6/30.
  */
-@RpcService(HelloService.class)
+@RpcService(HelloService.class) //注解处理
 public class HelloServiceImpl implements HelloService {
     public String hello(String name) {
-        return String.format("%s say hello!", name);
+        String response = String.format("%s say hello!", name);
+        System.out.println(response);
+        return response;
     }
 }

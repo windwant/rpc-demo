@@ -10,7 +10,7 @@ import java.lang.reflect.Proxy;
 import java.util.UUID;
 
 /**
- * Created by aayongche on 2016/6/30.
+ * Created by windwant on 2016/6/30.
  */
 public class RpcProxy implements InvocationHandler {
 

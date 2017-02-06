@@ -1,7 +1,7 @@
 package org.rpczookeeper.test;
 
 /**
- * Created by aayongche on 2016/6/30.
+ * Created by windwant on 2016/6/30.
  */
 public interface RPCConstants {
     int ZK_SESSION_TIMEOUT = 5000;

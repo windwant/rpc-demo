@@ -1,6 +1,7 @@
 package org.rpcclient.test;
 
 import org.rpcclient.test.core.RpcProxy;
+import org.rpcclient.test.core.ServiceDiscovery;
 import org.rpcserver.test.pojo.RpcRequest;
 import org.rpcserver.test.pojo.RpcResponse;
 import org.rpcserver.test.service.HelloService;
@@ -10,7 +11,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import java.util.UUID;
 
 /**
- * Created by aayongche on 2016/6/30.
+ * Created by windwant on 2016/6/30.
  */
 public class Client {
     public static void main(String[] args) throws Exception {
@@ -21,8 +22,11 @@ public class Client {
         request.setParameterType(new Class<?>[]{String.class});
         request.setParameters(new Object[]{"lilei"});
 
-
-        RpcClient client = new RpcClient("localhost", 1099);
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ServiceDiscovery sd = (ServiceDiscovery) ctx.getBean("serviceDiscory");
+        String sp = sd.discory();
+        String[] sps = sp.split(":");
+        RpcClient client = new RpcClient(sps[0], Integer.parseInt(sps[1]));
         RpcResponse response = client.send(request);
         System.out.println(response);
     }
