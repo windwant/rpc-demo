@@ -8,6 +8,7 @@ import org.rpcserver.test.pojo.RpcRequest;
 import org.rpcserver.test.pojo.RpcResponse;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
@@ -28,16 +29,16 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
 
     @Override
     protected void messageReceived(ChannelHandlerContext ctx, RpcRequest msg) throws Exception {
-        RpcResponse response = new RpcResponse();
-        response.setRequestId(msg.getRequestId());
+        RpcResponse response = new RpcResponse();//构造返回消息
+        response.setRequestId(msg.getRequestId());//同一个消息ID
         try {
-            Object rst = handleReuqest(msg);
+            Object rst = handleReuqest(msg);//处理请求消息体 反射调用接口获取结果返回
             response.setResult(rst);
         } catch (Throwable t){
             response.setError(t);
         }
 
-        ctx.writeAndFlush(response);
+        ctx.writeAndFlush(response); //写出消息
     }
 
     /**
@@ -47,16 +48,30 @@ public class RpcHandler extends SimpleChannelInboundHandler<RpcRequest> {
      * @throws InvocationTargetException
      */
     private Object handleReuqest(RpcRequest request) throws InvocationTargetException {
-        String className = request.getClassName();
-        Object serviceBean = handlerMap.get(className);
+//        return invokeService(request);//java 反射处理
+        String className = request.getClassName(); //调用的接口名称
+        Object serviceBean = handlerMap.get(className); //根据接口名称获取对象
+        if(serviceBean == null) return null;
 
-        Class<?> serverCls = serviceBean.getClass();
-        String methodName = request.getMethodName();
-        Class<?>[] ptype = request.getParameterType();
-        Object[] ps = request.getParameters();
+        //Cglib 处理反射
+        FastClass fastClass = FastClass.create(serviceBean.getClass());
+        FastMethod fastMethod = fastClass.getMethod(request.getMethodName(), request.getParameterType());
+        return fastMethod.invoke(serviceBean, request.getParameters());
+    }
 
-        FastClass fastClass = FastClass.create(serverCls);
-        FastMethod fastMethod = fastClass.getMethod(methodName, ptype);
-        return fastMethod.invoke(serviceBean, ps);
+    private Object invokeService(RpcRequest request){
+        Object serviceBean = handlerMap.get(request.getClassName()); //根据接口名称获取对象
+        try {
+            if(serviceBean == null) return null;
+            Method method = serviceBean.getClass().getMethod(request.getMethodName(), request.getParameterType());
+            return method.invoke(serviceBean, request.getParameters());
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

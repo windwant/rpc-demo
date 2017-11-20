@@ -21,7 +21,7 @@ public class RpcDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
-        if(in.readableBytes() < 4) return;
+        if(in.readableBytes() < 4) return; //初始4个长度为记录数据长度位置
         in.markReaderIndex();//记录开始读取位置
 
         int size = in.readInt();
@@ -31,7 +31,7 @@ public class RpcDecoder extends ByteToMessageDecoder {
         }
 
         if(in.readableBytes() < size){
-            in.resetReaderIndex();
+            in.resetReaderIndex(); //重置回marked index
             return;
         }
 

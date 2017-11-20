@@ -1,8 +1,11 @@
-# rpc-zookeeper-test
-rpc zookeeper netty
-
-zookeeper 服务注册 与 发现
+#rpc-test
 
 rpc 应用实例
 
-jetty 服务器
+zookeeper 服务注册 与 发现
+
+netty 构造 rpc 服务器
+
+netty 构造 rpc 客户端
+
+

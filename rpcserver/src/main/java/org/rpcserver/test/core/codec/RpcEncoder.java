@@ -20,7 +20,9 @@ public class RpcEncoder extends MessageToByteEncoder {
     @Override
     protected void encode(ChannelHandlerContext ctx, Object msg, ByteBuf out) throws Exception {
         if(genericClass.isInstance(msg)){
-            byte[] data = SerializationUtil.serialize(msg); //序列化对象
+            byte[] data = SerializationUtil.serialize(msg); //使用protobuf工具类 序列化对象
+
+            //接本协议：长度 + 数据
             out.writeInt(data.length);//写入长度
             out.writeBytes(data);//写入数据
         }
