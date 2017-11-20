@@ -1,4 +1,4 @@
-package org.rpczookeeper.test;
+package org.rpc.test;
 
 /**
  * Created by windwant on 2016/6/30.

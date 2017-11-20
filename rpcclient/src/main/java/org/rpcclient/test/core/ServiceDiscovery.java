@@ -4,7 +4,7 @@ import org.apache.zookeeper.KeeperException;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
-import org.rpczookeeper.test.RPCConstants;
+import org.rpc.test.RPCConstants;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package org.rpcserver.test.core;
 
 import org.apache.zookeeper.*;
-import org.rpczookeeper.test.RPCConstants;
+import org.rpc.test.RPCConstants;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
