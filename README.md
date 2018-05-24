@@ -1,4 +1,4 @@
-#rpc-test
+#rpc-service
 
 rpc 应用实例
 
@@ -9,3 +9,5 @@ netty 构造 rpc 服务器
 netty 构造 rpc 客户端
 
 java 网络编程
+
+protostuff
